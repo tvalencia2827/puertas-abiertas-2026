@@ -1,1 +1,71 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Campos cuánticos · Puertas Abiertas 2026</title><style>body{background:#0c1325;color:#f4f7ff;font:18px system-ui,sans-serif;max-width:750px;margin:8vh auto;padding:24px;line-height:1.6}a{color:#9ad8ff}</style></head><body><a href="../">← Inicio</a><h1>Campos cuánticos</h1><p>Sección reservada para el cartel de campos cuánticos y su futura animación interactiva.</p></body></html>
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#08162d"><meta name="description" content="Explora los campos cuánticos a través de cinco escenas interactivas: campo, excitaciones, interacciones, Higgs y detectores.">
+<title>Campos cuánticos · Puertas Abiertas 2026 · IF-UNAM</title>
+<style>
+:root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#f0f7ff;background:#071427}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 60% 0%,#173967,#071427 56%);min-height:100vh}
+main{max-width:1130px;margin:auto;padding:26px 22px 55px}
+header{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+header a{color:#a1e8f8;text-decoration:none}header a:hover{text-decoration:underline}
+.kicker{font-size:.78rem;letter-spacing:.16em;color:#70dbdf;text-transform:uppercase;font-weight:750}
+h1{font-size:clamp(2.4rem,6vw,4.6rem);margin:18px 0 7px;line-height:1.04;letter-spacing:-.045em}
+.lead{max-width:840px;color:#c5dbf3;line-height:1.65;font-size:1.11rem}
+.deck{background:#0d2342;border:1px solid #385878;border-radius:24px;padding:17px;margin-top:24px;box-shadow:0 20px 60px #0005}
+#stage{display:block;width:100%;height:auto;aspect-ratio:16/9;background:#071629;border-radius:16px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+button{font:inherit;background:#173452;color:#dbedff;border:1px solid #41647e;border-radius:11px;padding:11px 14px;cursor:pointer}
+button:hover,button[aria-pressed=true]{background:#087f91;border-color:#83eef2;color:white}
+.controls{display:flex;gap:11px;align-items:center;flex-wrap:wrap;padding-top:15px}
+.controls button{white-space:nowrap}
+#seek{flex:1;min-width:95px;accent-color:#42e2df}
+#time{font-variant-numeric:tabular-nums;color:#a6c5df;min-width:73px;text-align:right}
+.summary{margin:16px 0;padding:20px 24px;background:#152f4e;border-radius:17px;border:1px solid #3a5574}
+.summary h2{margin:0 0 10px;font-size:1.45rem}
+.summary p{color:#d1e2f5;line-height:1.6;margin:0 0 11px}
+.note{background:#103647;border-left:4px solid #63dce0;padding:10px 14px;border-radius:3px;font-size:.9rem;color:#d0edee}
+footer{margin-top:34px;color:#a8bfd7;line-height:1.55;font-size:.92rem}
+@media(max-width:600px){main{padding:15px} .deck{padding:9px;border-radius:15px}#stage{aspect-ratio:4/3}.tabs button{font-size:.87rem;padding:8px 10px}.controls button{padding:9px 10px}.summary{padding:16px}}
+</style></head><body><main>
+<header><span class="kicker">Puertas Abiertas 2026 · Instituto de Física · UNAM</span><a href="../">← Portal principal</a></header>
+<h1>Campos cuánticos</h1><p class="lead">La física actual describe las partículas elementales como excitaciones de campos cuánticos. Explora esta idea con cinco animaciones, ejemplos y explicaciones a tu propio ritmo.</p>
+<section class="deck" aria-label="Animación interactiva">
+<nav class="tabs" id="tabs" aria-label="Elige una escena"></nav>
+<canvas id="stage" width="1100" height="620" role="img" aria-label="Visualización esquemática interactiva de campos cuánticos"></canvas>
+<div class="controls"><button id="play">⏸ Pausar</button><button id="previous">← Anterior</button><button id="next">Siguiente →</button><input id="seek" type="range" min="0" max="100" value="0" aria-label="Progreso en la escena"><span id="time">0 / 15 s</span></div>
+</section>
+<section class="summary" aria-live="polite"><h2 id="title"></h2><p id="explain"></p><div id="fact" class="note"></div></section>
+<footer>Grupo de «Física más allá del modelo estándar y astropartículas» del Instituto de Física de la UNAM. Este trabajo contó con el apoyo financiero parcial de los proyectos SECIHTI CBF2023-2024-548 y PAPIIT IN111224 (DGAPA-UNAM).<p><small>Estas animaciones son analogías visuales didácticas: un campo cuántico no es literalmente una superficie material que ondula.</small></p></footer>
+</main><script>
+'use strict';
+const scenes=[
+{title:"1. ¿Qué es un campo?",tab:"Un campo",desc:"Un campo asigna magnitudes a las regiones del espacio y del tiempo. En la teoría cuántica, sus observables y excitaciones obedecen leyes cuánticas. Las ondas de la imagen son una analogía visual.",fact:"Una representación clásica como una superficie es útil para imaginar variaciones, pero un campo cuántico es un objeto matemático más rico."},
+{title:"2. Una excitación: una partícula",tab:"Excitaciones",desc:"En teoría cuántica de campos, las partículas elementales se describen como cuantos o excitaciones de los campos correspondientes. Su energía puede intercambiarse en cantidades discretas.",fact:"Para un modo de frecuencia ω, cada cuanto aporta una energía ℏω sobre el estado anterior. La imagen NO representa una canica material."},
+{title:"3. Campos que interactúan",tab:"Interacciones",desc:"Las interacciones físicas se calculan mediante amplitudes cuánticas. Los diagramas de Feynman ayudan a organizar esos cálculos; no son fotografías de trayectorias.",fact:"Ejemplo simbólico: dos electrones pueden dispersarse intercambiando un fotón virtual, representado mediante una línea ondulada."},
+{title:"4. El campo de Higgs",tab:"Higgs y masa",desc:"El campo de Higgs presenta un valor de vacío no nulo. Sus interacciones contribuyen a las masas de quarks, leptones cargados y bosones W y Z. El bosón de Higgs es una excitación de este campo.",fact:"La mayor parte de la masa de protones y neutrones proviene de la dinámica de quarks y gluones, no directamente del campo de Higgs."},
+{title:"5. ¿Cómo se investiga?",tab:"Detectores",desc:"En aceleradores, las interacciones de partículas producen señales en detectores. Las trayectorias, energías y direcciones reconstruidas permiten contrastar predicciones de las teorías cuánticas de campos.",fact:"Preguntas abiertas: el origen de las masas de los neutrinos, la materia oscura y la posible física más allá del Modelo Estándar."}
+];
+const c=document.getElementById('stage'),g=c.getContext('2d'),tabs=document.getElementById('tabs'),duration=15;
+let scene=0,t=0,play=true,last=0;
+function label(s,x,y,size=24,color='#eef7ff',weight=650){g.font=weight+' '+size+'px system-ui';g.fillStyle=color;g.textAlign='center';g.fillText(s,x,y)}
+function line(x,y,X,Y,col='#9eddeb',width=2){g.lineWidth=width;g.strokeStyle=col;g.beginPath();g.moveTo(x,y);g.lineTo(X,Y);g.stroke()}
+function circle(x,y,r,col){g.beginPath();g.arc(x,y,r,0,Math.PI*2);g.fillStyle=col;g.fill()}
+function mesh(centerX,centerY,amp,phase,bright){for(let j=0;j<15;j++){g.beginPath();for(let i=0;i<98;i++){let x=centerX-390+i*8,y=centerY+(j-7)*15;let u=(i-49)/19,env=Math.exp(-u*u*1.5),z=amp*env*Math.sin(i*.26+phase+j*.09);let px=x+z*.14,py=y-z*.8+(i-49)*.13; if(i===0)g.moveTo(px,py);else g.lineTo(px,py)}g.strokeStyle=bright?'hsla('+(180+j*7)+',90%,65%,.65)':'#326384';g.lineWidth=1.5;g.stroke()}for(let i=0;i<20;i++){g.beginPath();for(let j=0;j<15;j++){let x=centerX-390+i*40,y=centerY+(j-7)*15;let env=Math.exp(-Math.pow((i*40-390)/153,2)*1.5),z=amp*env*Math.sin(i*1.32+phase+j*.09);let px=x+z*.14,py=y-z*.8+(i*40-390)*.13;if(j===0)g.moveTo(px,py);else g.lineTo(px,py)}g.strokeStyle='#326384';g.lineWidth=1;g.stroke()}}
+function base(){g.clearRect(0,0,c.width,c.height);let grad=g.createLinearGradient(0,0,1100,620);grad.addColorStop(0,'#0a1933');grad.addColorStop(1,'#13294b');g.fillStyle=grad;g.fillRect(0,0,1100,620);for(let i=0;i<75;i++){circle((i*149+47)%1100,(i*107+13)%620,1.2,'#244d74')}}
+function wavy(x,y,X,Y,col){g.beginPath();for(let i=0;i<=70;i++){let u=i/70,xx=x+(X-x)*u,yy=y+(Y-y)*u+11*Math.sin(u*16*Math.PI);if(i===0)g.moveTo(xx,yy);else g.lineTo(xx,yy)}g.lineWidth=4;g.strokeStyle=col;g.stroke()}
+function draw(){base();if(scene===0){label('Un campo puede tener un valor en cada región del espacio',550,78,27);mesh(550,330,48,2*t,'#');label('Representación esquemática de variaciones',550,550,21,'#b4d5e8')}
+if(scene===1){label('Estado sin excitación',265,85,27);label('Excitación localizada',825,85,27);line(85,350,450,350,'#2c7d9c',4);for(let i=0;i<10;i++)line(100,365+i*14,445,365+i*14,'#224967',1);let points=[];for(let i=0;i<340;i++){let u=i/339,x=660+u*345;let peak=170*Math.exp(-Math.pow((u-.53)*6,2));points.push([x,365-peak*(1+.04*Math.sin(t*2))]);}g.beginPath();points.forEach((p,i)=>i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1]));g.strokeStyle='#71e8e4';g.lineWidth=5;g.stroke();label('energía cuantizada',820,550,22,'#d2ecfa');label('Analogía visual',550,600,18,'#a5bad3')}
+if(scene===2){label('e⁻',210,175,32);label('e⁻',210,505,32);label('e⁻',880,175,32);label('e⁻',880,505,32);line(250,175,385,295,'#72e1e5',5);line(250,505,385,385,'#72e1e5',5);line(715,295,850,175,'#ffa56c',5);line(715,385,850,505,'#ffa56c',5);line(385,295,715,385,'#1c4467',1);wavy(385,340,715,340,'#e18cf8');circle(385,340,8,'#fff');circle(715,340,8,'#fff');label('γ*',550,306,33,'#f4b0fb');label('Representación simbólica de la interacción electromagnética',550,580,21,'#cadbec')}
+if(scene===3){label('Valor de vacío del campo de Higgs ≠ 0',550,88,29);for(let i=0;i<20;i++)for(let j=0;j<7;j++){let x=80+i*48,y=143+j*43;circle(x,y,3+Math.cos(t*2+i*.3+j*.5)*.8,'#53a6b5')}let items=[['fotón',210,0],['electrón',535,23],['quark top',865,52]];items.forEach(v=>{circle(v[1],328,19+v[2],v[2]?'#f5bb6e':'#78ecf0');label(v[0],v[1],466,25);});label('Tamaños ilustrativos: NO representan masas ni dimensiones',550,575,20,'#bcd0e6')}
+if(scene===4){label('Ejemplo esquemático de reconstrucción en un detector',550,85,29);[90,150,215,280].forEach(r=>{g.beginPath();g.arc(550,345,r,0,Math.PI*2);g.lineWidth=2;g.strokeStyle='#345d81';g.stroke()});circle(550,345,34,'#f7c67e');for(let i=0;i<13;i++){let a=i*2*Math.PI/13+t*.06,r=110+i*13;line(550,345,550+Math.cos(a)*r,345+Math.sin(a)*r,['#7cdbed','#e79de9','#ffb47b'][i%3],3);circle(550+Math.cos(a)*r,345+Math.sin(a)*r,6,['#7cdbed','#e79de9','#ffb47b'][i%3])}}
+}
+function setScene(i){scene=(i+scenes.length)%scenes.length;t=0;document.getElementById('title').textContent=scenes[scene].title;document.getElementById('explain').textContent=scenes[scene].desc;document.getElementById('fact').textContent=scenes[scene].fact;document.querySelectorAll('#tabs button').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.i)===scene)));draw()}
+scenes.forEach((s,i)=>{let b=document.createElement('button');b.textContent=s.tab;b.dataset.i=i;b.onclick=()=>setScene(i);tabs.appendChild(b)});
+document.getElementById('play').onclick=()=>{play=!play;document.getElementById('play').textContent=play?'⏸ Pausar':'▶ Reproducir'};
+document.getElementById('previous').onclick=()=>setScene(scene-1);
+document.getElementById('next').onclick=()=>setScene(scene+1);
+document.getElementById('seek').oninput=e=>{t=duration*Number(e.target.value)/100;draw()};
+document.addEventListener('keydown',e=>{if(['INPUT','TEXTAREA'].includes(document.activeElement.tagName))return;if(e.key==='ArrowRight')setScene(scene+1);if(e.key==='ArrowLeft')setScene(scene-1)});
+function animate(now){if(!last)last=now;let dt=Math.min((now-last)/1000,.07);last=now;if(play){t+=dt;if(t>=duration)setScene(scene+1);draw()}document.getElementById('seek').value=100*t/duration;document.getElementById('time').textContent=Math.floor(t)+' / '+duration+' s';requestAnimationFrame(animate)}
+setScene(0);requestAnimationFrame(animate);
+</script></body></html>
