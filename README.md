@@ -1,12 +1,27 @@
-# Puertas Abiertas 2026
+# Puertas Abiertas 2026 · Instituto de Física, UNAM
 
-Portal de divulgación científica para dos carteles del Instituto de Física de la UNAM:
+Portal público de divulgación científica para dos carteles del grupo de «Física más allá del modelo estándar y astropartículas».
 
-- **Modelo Estándar:** página de acceso a la animación interactiva original. Su código aún no se ha migrado a este repositorio.
-- **Campos cuánticos:** sección reservada para el segundo cartel.
+## Visita el portal
 
-## Publicación en GitHub Pages
+https://tvalencia2827.github.io/puertas-abiertas-2026/
 
-En **Settings → Pages**, seleccionar **Deploy from a branch**, rama **main**, carpeta **/(root)** y guardar. La URL prevista es https://tvalencia2827.github.io/puertas-abiertas-2026/.
+### Modelo Estándar de partículas elementales
+- Página: https://tvalencia2827.github.io/puertas-abiertas-2026/modelo-estandar/
+- Animación de cinco escenas: materia, familias de partículas, interacciones, Higgs y detectores.
 
-El QR del cartel del Modelo Estándar sigue apuntando al sitio original hasta completar y verificar la migración.
+### Campos cuánticos
+- Página: https://tvalencia2827.github.io/puertas-abiertas-2026/campos-cuanticos/
+- Animación de cinco escenas: campo cuántico, excitaciones, interacciones, Higgs y detección experimental.
+- Controles de reproducción, pausa, avance, selección de escena y barra de progreso.
+- El QR del nuevo cartel apunta a esta página.
+
+## Publicación
+
+El sitio se publica con GitHub Pages desde la rama `main` y la carpeta `/(root)`. Cada carpeta contiene su propio `index.html`, sin dependencias externas. Los carteles vectoriales de gran formato y sus PDF se entregan también como archivos separados para impresión.
+
+## Créditos
+
+Grupo de «Física más allá del modelo estándar y astropartículas» del Instituto de Física de la UNAM.
+
+Apoyo financiero parcial de los proyectos SECIHTI CBF2023-2024-548 y PAPIIT IN111224 (DGAPA-UNAM).
