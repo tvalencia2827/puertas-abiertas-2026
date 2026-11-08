@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#08162d"><meta name="description" content="Explora los campos cuánticos a través de cinco escenas interactivas: campo, excitaciones, interacciones, Higgs y detectores.">
+<meta name="theme-color" content="#08162d"><meta name="description" content="Explora los campos cuánticos a través de seis escenas interactivas, incluido un recorrido desde los campos hasta los experimentos.">
 <title>Campos cuánticos · Puertas Abiertas 2026 · IF-UNAM</title>
 <style>
 :root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#f0f7ff;background:#071427}
@@ -26,15 +26,38 @@ button:hover,button[aria-pressed=true]{background:#087f91;border-color:#83eef2;c
 .note{background:#103647;border-left:4px solid #63dce0;padding:10px 14px;border-radius:3px;font-size:.9rem;color:#d0edee}
 footer{margin-top:34px;color:#a8bfd7;line-height:1.55;font-size:.92rem}
 @media(max-width:600px){main{padding:15px} .deck{padding:9px;border-radius:15px}#stage{aspect-ratio:4/3}.tabs button{font-size:.87rem;padding:8px 10px}.controls button{padding:9px 10px}.summary{padding:16px}}
+
+.route{background:#0d2342;border:1px solid #385878;border-radius:20px;padding:22px;margin-top:22px}
+.route h2{margin:0 0 8px;font-size:clamp(1.2rem,3.4vw,1.8rem);letter-spacing:.015em}
+.route>p{margin:0 0 17px;line-height:1.6;color:#c5dbf3}
+.flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px}
+.flow button{padding:14px 10px 15px;min-height:110px;border:1px solid #4f7295;background:#162f50;text-align:center;transition:background .15s,border-color .15s}
+.flow button strong{display:block;font-size:1rem;letter-spacing:.03em}
+.flow button span{display:block;color:#c7d9eb;font-size:.88rem;margin-top:9px;line-height:1.35}
+.flow button[aria-pressed=true],.flow button:hover{border-color:#60e2dd;background:#07566f}
+.flow button[aria-pressed=true] span{color:#e9fbff}
+#flow-explain{margin:16px 0 0;padding:13px 17px;background:#173853;border-radius:10px;color:#e6f3fc;min-height:54px;line-height:1.55}
+@media(max-width:600px){.route{padding:15px}.flow{grid-template-columns:repeat(2,minmax(0,1fr))}.flow button{min-height:92px;padding:11px 6px}.flow button strong{font-size:.9rem}.flow button span{font-size:.79rem}}
 </style></head><body><main>
 <header><span class="kicker">Puertas Abiertas 2026 · Instituto de Física · UNAM</span><a href="../">← Portal principal</a></header>
-<h1>Campos cuánticos</h1><p class="lead">La física actual describe las partículas elementales como excitaciones de campos cuánticos. Explora esta idea con cinco animaciones, ejemplos y explicaciones a tu propio ritmo.</p>
+<h1>Campos cuánticos</h1><p class="lead">La física actual describe las partículas elementales como excitaciones de campos cuánticos. Explora esta idea con seis animaciones, incluido el recorrido «De los campos a los experimentos», ejemplos y explicaciones a tu propio ritmo.</p>
 <section class="deck" aria-label="Animación interactiva">
 <nav class="tabs" id="tabs" aria-label="Elige una escena"></nav>
 <canvas id="stage" width="1100" height="620" role="img" aria-label="Visualización esquemática interactiva de campos cuánticos"></canvas>
 <div class="controls"><button id="play">⏸ Pausar</button><button id="previous">← Anterior</button><button id="next">Siguiente →</button><input id="seek" type="range" min="0" max="100" value="0" aria-label="Progreso en la escena"><span id="time">0 / 15 s</span></div>
 </section>
 <section class="summary" aria-live="polite"><h2 id="title"></h2><p id="explain"></p><div id="fact" class="note"></div></section>
+<section class="route" aria-labelledby="flow-title">
+<h2 id="flow-title">DE LOS CAMPOS A LOS EXPERIMENTOS</h2>
+<p>Elige una etapa para explorar cómo se relacionan los conceptos del cartel con lo que se observa en los experimentos.</p>
+<div class="flow" role="group" aria-label="Etapas del recorrido">
+<button type="button" data-flow-step="0" aria-pressed="false"><strong>1. CAMPO</strong><span>Variaciones cuánticas</span></button>
+<button type="button" data-flow-step="1" aria-pressed="false"><strong>2. EXCITACIÓN</strong><span>Cuantos del campo</span></button>
+<button type="button" data-flow-step="2" aria-pressed="false"><strong>3. INTERACCIÓN</strong><span>Amplitudes cuánticas</span></button>
+<button type="button" data-flow-step="3" aria-pressed="false"><strong>4. DETECCIÓN</strong><span>Señales medibles</span></button>
+</div>
+<p id="flow-explain" aria-live="polite">Selecciona una etapa para ver su explicación y animación.</p>
+</section>
 <footer>Grupo de «Física más allá del modelo estándar y astropartículas» del Instituto de Física de la UNAM. Este trabajo contó con el apoyo financiero parcial de los proyectos SECIHTI CBF2023-2024-548 y PAPIIT IN111224 (DGAPA-UNAM).<p><small>Estas animaciones son analogías visuales didácticas: un campo cuántico no es literalmente una superficie material que ondula.</small></p></footer>
 </main><script>
 'use strict';
@@ -43,7 +66,8 @@ const scenes=[
 {title:"2. Una excitación: una partícula",tab:"Excitaciones",desc:"En teoría cuántica de campos, las partículas elementales se describen como cuantos o excitaciones de los campos correspondientes. Su energía puede intercambiarse en cantidades discretas.",fact:"Para un modo de frecuencia ω, cada cuanto aporta una energía ℏω sobre el estado anterior. La imagen NO representa una canica material."},
 {title:"3. Campos que interactúan",tab:"Interacciones",desc:"Las interacciones físicas se calculan mediante amplitudes cuánticas. Los diagramas de Feynman ayudan a organizar esos cálculos; no son fotografías de trayectorias.",fact:"Ejemplo simbólico: dos electrones pueden dispersarse intercambiando un fotón virtual, representado mediante una línea ondulada."},
 {title:"4. El campo de Higgs",tab:"Higgs y masa",desc:"El campo de Higgs presenta un valor de vacío no nulo. Sus interacciones contribuyen a las masas de quarks, leptones cargados y bosones W y Z. El bosón de Higgs es una excitación de este campo.",fact:"La mayor parte de la masa de protones y neutrones proviene de la dinámica de quarks y gluones, no directamente del campo de Higgs."},
-{title:"5. ¿Cómo se investiga?",tab:"Detectores",desc:"En aceleradores, las interacciones de partículas producen señales en detectores. Las trayectorias, energías y direcciones reconstruidas permiten contrastar predicciones de las teorías cuánticas de campos.",fact:"Preguntas abiertas: el origen de las masas de los neutrinos, la materia oscura y la posible física más allá del Modelo Estándar."}
+{title:"5. ¿Cómo se investiga?",tab:"Detectores",desc:"En aceleradores, las interacciones de partículas producen señales en detectores. Las trayectorias, energías y direcciones reconstruidas permiten contrastar predicciones de las teorías cuánticas de campos.",fact:"Preguntas abiertas: el origen de las masas de los neutrinos, la materia oscura y la posible física más allá del Modelo Estándar."},
+{title:"6. De los campos a los experimentos",tab:"Del campo al experimento",desc:"El esquema resume cuatro ideas conectadas: campos cuánticos, sus posibles excitaciones, amplitudes de interacción y señales que pueden medirse en un detector. Las predicciones estadísticas se contrastan con los datos experimentales.",fact:"La secuencia es pedagógica, no una trayectoria universal de cada partícula: hay estados virtuales y procesos sin una señal directa en el detector."}
 ];
 const c=document.getElementById('stage'),g=c.getContext('2d'),tabs=document.getElementById('tabs'),duration=15;
 let scene=0,t=0,play=true,last=0;
@@ -58,14 +82,51 @@ if(scene===1){label('Estado sin excitación',265,85,27);label('Excitación local
 if(scene===2){label('e⁻',170,175,32);label('e⁻',170,505,32);label('e⁻',920,175,32);label('e⁻',920,505,32);line(210,175,550,290,'#72e1e5',5);line(550,290,890,175,'#72e1e5',5);line(210,505,550,390,'#ffa56c',5);line(550,390,890,505,'#ffa56c',5);g.beginPath();for(let k=0;k<=65;k++){let u=k/65,x=550+12*Math.sin(u*14*Math.PI),y=290+u*100;if(k===0)g.moveTo(x,y);else g.lineTo(x,y)}g.strokeStyle='#e18cf8';g.lineWidth=4;g.stroke();circle(550,290,7,'#fff');circle(550,390,7,'#fff');label('γ*',609,355,33,'#f4b0fb');label('Diagrama simbólico de dispersión electrón-electrón',550,580,21,'#cadbec')}
 if(scene===3){label('Valor de vacío del campo de Higgs ≠ 0',550,88,29);for(let i=0;i<20;i++)for(let j=0;j<7;j++){let x=80+i*48,y=143+j*43;circle(x,y,3+Math.cos(t*2+i*.3+j*.5)*.8,'#53a6b5')}let items=[['fotón',210,0],['electrón',535,23],['quark top',865,52]];items.forEach(v=>{circle(v[1],328,19+v[2],v[2]?'#f5bb6e':'#78ecf0');label(v[0],v[1],466,25);});label('Tamaños ilustrativos: NO representan masas ni dimensiones',550,575,20,'#bcd0e6')}
 if(scene===4){label('Ejemplo esquemático de reconstrucción en un detector',550,85,29);[90,150,215,280].forEach(r=>{g.beginPath();g.arc(550,345,r,0,Math.PI*2);g.lineWidth=2;g.strokeStyle='#345d81';g.stroke()});circle(550,345,34,'#f7c67e');for(let i=0;i<13;i++){let a=i*2*Math.PI/13+t*.06,r=110+i*13;line(550,345,550+Math.cos(a)*r,345+Math.sin(a)*r,['#7cdbed','#e79de9','#ffb47b'][i%3],3);circle(550+Math.cos(a)*r,345+Math.sin(a)*r,6,['#7cdbed','#e79de9','#ffb47b'][i%3])}}
+if(scene===5){
+label('DE LOS CAMPOS A LOS EXPERIMENTOS',550,79,31,'#bff6ff');
+const names=['CAMPO','EXCITACIÓN','INTERACCIÓN','DETECCIÓN'];
+const subtitles=['Variaciones cuánticas','Cuantos del campo','Amplitudes cuánticas','Señales medibles'];
+const palette=['#57d6ef','#bfa3ff','#f5be7e','#7fe5ad'];
+const selected=Math.min(3,Math.floor(t/(duration/4)));
+for(let k=0;k<4;k++){
+const x=39+k*264,cx=x+120,active=k===selected;
+g.beginPath();g.roundRect(x,155,239,325,21);
+g.fillStyle=active?'#194e67':'#152946';g.fill();
+g.strokeStyle=active?palette[k]:'#315475';g.lineWidth=active?4:2;g.stroke();
+label(names[k],cx,211,23,active?'#ffffff':'#d9eaff');
+g.strokeStyle=palette[k];g.lineWidth=3;
+if(k===0){for(let j=0;j<5;j++){g.beginPath();for(let i=0;i<=50;i++){let px=x+19+i*4,py=316+(j-2)*25-22*Math.sin(i*.22+t*1.1+j*.2);if(i===0)g.moveTo(px,py);else g.lineTo(px,py)}g.stroke()}}
+if(k===1){g.beginPath();for(let i=0;i<=70;i++){let u=i/70,px=x+20+u*198,py=367-108*Math.exp(-Math.pow((u-.5)*5,2))*(1+.08*Math.cos(t*1.6));if(i===0)g.moveTo(px,py);else g.lineTo(px,py)}g.stroke();line(x+21,369,x+218,369,'#407293',2)}
+if(k===2){line(x+24,280,cx-26,321,palette[k],4);line(x+24,385,cx-26,340,palette[k],4);line(cx+26,321,x+216,280,palette[k],4);line(cx+26,340,x+216,385,palette[k],4);wavy(cx-26,330,cx+26,330,'#df9dfa')}
+if(k===3){circle(cx,329,22,'#e7bb73');for(let j=0;j<9;j++){let a=j*Math.PI*2/9+t*.1,r=39+14*(j%3);line(cx,329,cx+Math.cos(a)*r,329+Math.sin(a)*r,palette[k],2);circle(cx+Math.cos(a)*r,329+Math.sin(a)*r,4,palette[k])}g.beginPath();g.arc(cx,329,85,0,2*Math.PI);g.strokeStyle='#416a89';g.lineWidth=2;g.stroke()}
+label(subtitles[k],cx,440,16,'#d4e3f3');
+if(k<3)label('→',x+251,325,26,'#83d5e5');
+}
+label('Esquema conceptual, no una secuencia literal de trayectorias',550,548,21,'#c7e2ef');
+}
 }
 function setScene(i){scene=(i+scenes.length)%scenes.length;t=0;document.getElementById('title').textContent=scenes[scene].title;document.getElementById('explain').textContent=scenes[scene].desc;document.getElementById('fact').textContent=scenes[scene].fact;document.querySelectorAll('#tabs button').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.i)===scene)));draw()}
 scenes.forEach((s,i)=>{let b=document.createElement('button');b.textContent=s.tab;b.dataset.i=i;b.onclick=()=>setScene(i);tabs.appendChild(b)});
+
+const flowButtons=[...document.querySelectorAll('[data-flow-step]')];
+const flowTexts=[
+'CAMPO · Un campo cuántico es una descripción física definida en el espacio-tiempo; las ondas dibujadas son una analogía de sus variaciones.',
+'EXCITACIÓN · Las partículas elementales corresponden a excitaciones cuantizadas de los campos. No son pequeñas bolitas desplazándose sobre la superficie de un campo.',
+'INTERACCIÓN · La teoría calcula amplitudes de probabilidad de distintos procesos. Los diagramas de Feynman organizan términos de esos cálculos, pero no son fotografías.',
+'DETECCIÓN · La instrumentación registra trazas y depósitos de energía; el análisis reconstruye observables y los compara con las predicciones estadísticas.'
+];
+function syncFlow(){
+const active=scene===5?Math.min(3,Math.floor(t/(duration/4))):-1;
+flowButtons.forEach((b,i)=>b.setAttribute('aria-pressed',String(i===active)));
+if(active>=0)document.getElementById('flow-explain').textContent=flowTexts[active];
+}
+flowButtons.forEach((b,i)=>b.onclick=()=>{setScene(5);t=(i+.1)*duration/4;draw();syncFlow();document.getElementById('stage').scrollIntoView({behavior:'smooth',block:'center'})});
+
 document.getElementById('play').onclick=()=>{play=!play;document.getElementById('play').textContent=play?'⏸ Pausar':'▶ Reproducir'};
 document.getElementById('previous').onclick=()=>setScene(scene-1);
 document.getElementById('next').onclick=()=>setScene(scene+1);
 document.getElementById('seek').oninput=e=>{t=duration*Number(e.target.value)/100;draw()};
 document.addEventListener('keydown',e=>{if(['INPUT','TEXTAREA'].includes(document.activeElement.tagName))return;if(e.key==='ArrowRight')setScene(scene+1);if(e.key==='ArrowLeft')setScene(scene-1)});
-function animate(now){if(!last)last=now;let dt=Math.min((now-last)/1000,.07);last=now;if(play){t+=dt;if(t>=duration)setScene(scene+1);draw()}document.getElementById('seek').value=100*t/duration;document.getElementById('time').textContent=Math.floor(t)+' / '+duration+' s';requestAnimationFrame(animate)}
+function animate(now){if(!last)last=now;let dt=Math.min((now-last)/1000,.07);last=now;if(play){t+=dt;if(t>=duration)setScene(scene+1);draw()}document.getElementById('seek').value=100*t/duration;document.getElementById('time').textContent=Math.floor(t)+' / '+duration+' s';syncFlow();requestAnimationFrame(animate)}
 setScene(0);requestAnimationFrame(animate);
 </script></body></html>
